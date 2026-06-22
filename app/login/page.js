@@ -8,6 +8,7 @@ import Footer from "../components/Footer";
 export default function Login() {
   const router = useRouter();
 
+  const [darkMode, setDarkMode] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -27,7 +28,6 @@ export default function Login() {
       return;
     }
 
-    // save login
     localStorage.setItem(
       "homestay_user",
       JSON.stringify({
@@ -36,7 +36,6 @@ export default function Login() {
       })
     );
 
-    // redirect
     router.push("/");
   };
 
@@ -44,23 +43,48 @@ export default function Login() {
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-indigo-100 flex items-center justify-center px-6 py-12">
-        <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8">
+      <main
+        className={`min-h-screen flex items-center justify-center px-6 py-12 transition-all duration-300 ${
+          darkMode
+            ? "bg-slate-900"
+            : "bg-gradient-to-br from-blue-100 via-white to-indigo-100"
+        }`}
+      >
+        {/* Dark Mode Button */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="fixed top-24 right-8 z-50 bg-slate-800 text-white px-5 py-3 rounded-full shadow-lg hover:scale-105 transition"
+        >
+          {darkMode ? "☀ Light" : "🌙 Dark"}
+        </button>
 
+        <div
+          className={`w-full max-w-md rounded-3xl shadow-2xl p-8 transition-all duration-300 ${
+            darkMode ? "bg-slate-800" : "bg-white"
+          }`}
+        >
           {/* Header */}
           <div className="text-center mb-8">
             <div className="text-7xl mb-4">🏡</div>
 
-            <h1 className="text-3xl font-bold text-gray-900">
+            <h1
+              className={`text-3xl font-bold ${
+                darkMode ? "text-white" : "text-gray-900"
+              }`}
+            >
               Welcome Back
             </h1>
 
-            <p className="text-gray-600 mt-2">
+            <p
+              className={`mt-2 ${
+                darkMode ? "text-slate-300" : "text-gray-600"
+              }`}
+            >
               Login to access your Homestay Review Dashboard
             </p>
           </div>
 
-          {/* ERROR MESSAGE (same design style) */}
+          {/* Error */}
           {error && (
             <p className="text-red-500 text-sm mb-4 text-center">
               {error}
@@ -70,7 +94,11 @@ export default function Login() {
           {/* Form */}
           <form className="space-y-5" onSubmit={handleLogin}>
             <div>
-              <label className="block text-gray-800 font-semibold mb-2">
+              <label
+                className={`block font-semibold mb-2 ${
+                  darkMode ? "text-white" : "text-gray-800"
+                }`}
+              >
                 Email Address
               </label>
 
@@ -79,12 +107,20 @@ export default function Login() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 ${
+                  darkMode
+                    ? "bg-slate-700 border-slate-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                }`}
               />
             </div>
 
             <div>
-              <label className="block text-gray-800 font-semibold mb-2">
+              <label
+                className={`block font-semibold mb-2 ${
+                  darkMode ? "text-white" : "text-gray-800"
+                }`}
+              >
                 Password
               </label>
 
@@ -93,19 +129,27 @@ export default function Login() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className={`w-full px-4 py-3 border rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-500 ${
+                  darkMode
+                    ? "bg-slate-700 border-slate-600 text-white"
+                    : "bg-white border-gray-300 text-gray-900"
+                }`}
               />
             </div>
 
             <div className="flex justify-between items-center text-sm">
-              <label className="flex items-center gap-2 text-gray-700">
+              <label
+                className={`flex items-center gap-2 ${
+                  darkMode ? "text-slate-300" : "text-gray-700"
+                }`}
+              >
                 <input type="checkbox" />
                 Remember me
               </label>
 
               <a
                 href="#"
-                className="text-blue-600 font-medium hover:text-sky-800"
+                className="text-sky-500 font-medium hover:text-sky-400"
               >
                 Forgot Password?
               </a>
@@ -121,26 +165,51 @@ export default function Login() {
 
           {/* Divider */}
           <div className="flex items-center my-6">
-            <div className="flex-grow border-t border-gray-300"></div>
-            <span className="px-3 text-gray-500 text-sm">OR</span>
-            <div className="flex-grow border-t border-gray-300"></div>
+            <div
+              className={`flex-grow border-t ${
+                darkMode ? "border-slate-600" : "border-gray-300"
+              }`}
+            ></div>
+
+            <span
+              className={`px-3 text-sm ${
+                darkMode ? "text-slate-400" : "text-gray-500"
+              }`}
+            >
+              OR
+            </span>
+
+            <div
+              className={`flex-grow border-t ${
+                darkMode ? "border-slate-600" : "border-gray-300"
+              }`}
+            ></div>
           </div>
 
           {/* Google Button */}
-          <button className="w-full border border-gray-300 py-3 rounded-xl font-medium text-gray-700 hover:bg-gray-100 transition">
+          <button
+            className={`w-full py-3 rounded-xl font-medium transition ${
+              darkMode
+                ? "border border-slate-600 bg-slate-700 text-white hover:bg-slate-600"
+                : "border border-gray-300 text-gray-700 hover:bg-gray-100"
+            }`}
+          >
             Continue with Google
           </button>
 
           {/* Signup */}
           <div className="text-center mt-6">
-            <p className="text-gray-600">
+            <p
+              className={`${
+                darkMode ? "text-slate-300" : "text-gray-600"
+              }`}
+            >
               Don't have an account?{" "}
-              <span className="text-blue-600 font-bold cursor-pointer hover:text-blue-800">
+              <span className="text-sky-500 font-bold cursor-pointer hover:text-sky-400">
                 Sign Up
               </span>
             </p>
           </div>
-
         </div>
       </main>
 
