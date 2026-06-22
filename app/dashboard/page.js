@@ -30,7 +30,7 @@ const reviewData = [
   { month: "May", reviews: 95 },
 ];
 
-const COLORS = ["#22c55e", "#3b82f6", "#ef4444"];
+const COLORS = ["lightgreen", "skyblue", "lightcoral"];
 
 export default function Dashboard() {
   return (
@@ -41,7 +41,7 @@ export default function Dashboard() {
 
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-extrabold text-blue-700">
+          <h1 className="text-5xl font-extrabold text-sky-700">
             Review Analytics Dashboard
           </h1>
 
@@ -53,8 +53,8 @@ export default function Dashboard() {
         {/* Statistics Cards */}
         <div className="grid md:grid-cols-5 gap-6 mb-12">
 
-          <div className="bg-blue-50 border border-blue-200 rounded-2xl p-6 shadow-md text-center">
-            <h2 className="text-4xl font-bold text-blue-600">500+</h2>
+          <div className="bg-sky-100 border border-sky-200 rounded-2xl p-6 shadow-md text-center">
+            <h2 className="text-4xl font-bold text-sky-600">500+</h2>
             <p className="mt-2 text-slate-900 font-semibold">
               Total Reviews
             </p>
@@ -134,7 +134,7 @@ export default function Dashboard() {
 
                 <XAxis
                   dataKey="month"
-                  tick={{ fill: "#0f172a", fontSize: 14 }}
+                  tick={{ fill: "#0f2a14", fontSize: 14 }}
                 />
 
                 <YAxis
@@ -145,7 +145,7 @@ export default function Dashboard() {
 
                 <Bar
                   dataKey="reviews"
-                  fill="#3b82f6"
+                  fill="skyblue"
                   radius={[8, 8, 0, 0]}
                 />
               </BarChart>

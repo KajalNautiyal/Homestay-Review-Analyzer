@@ -1,7 +1,45 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 export default function Login() {
+  const router = useRouter();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    setError("");
+
+    if (!email || !password) {
+      setError("Please fill all fields");
+      return;
+    }
+
+    if (!email.includes("@")) {
+      setError("Enter valid email");
+      return;
+    }
+
+    // save login
+    localStorage.setItem(
+      "homestay_user",
+      JSON.stringify({
+        email,
+        loggedIn: true,
+      })
+    );
+
+    // redirect
+    router.push("/");
+  };
+
   return (
     <>
       <Navbar />
@@ -22,8 +60,15 @@ export default function Login() {
             </p>
           </div>
 
+          {/* ERROR MESSAGE (same design style) */}
+          {error && (
+            <p className="text-red-500 text-sm mb-4 text-center">
+              {error}
+            </p>
+          )}
+
           {/* Form */}
-          <form className="space-y-5">
+          <form className="space-y-5" onSubmit={handleLogin}>
             <div>
               <label className="block text-gray-800 font-semibold mb-2">
                 Email Address
@@ -31,6 +76,8 @@ export default function Login() {
 
               <input
                 type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -43,6 +90,8 @@ export default function Login() {
 
               <input
                 type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 placeholder="Enter your password"
                 className="w-full px-4 py-3 border border-gray-300 rounded-xl text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
@@ -56,7 +105,7 @@ export default function Login() {
 
               <a
                 href="#"
-                className="text-blue-600 font-medium hover:text-blue-800"
+                className="text-blue-600 font-medium hover:text-sky-800"
               >
                 Forgot Password?
               </a>
@@ -64,7 +113,7 @@ export default function Login() {
 
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold transition duration-300 shadow-lg"
+              className="w-full bg-sky-600 hover:bg-sky-700 text-white py-3 rounded-xl font-semibold transition duration-300 shadow-lg"
             >
               Login
             </button>

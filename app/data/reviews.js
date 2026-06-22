@@ -1,0 +1,32 @@
+export const homestays = [
+  {
+    id: 1,
+    name: "Mountain View Stay",
+    location: "Uttarakhand",
+    rating: "4.8",
+    price: "₹2000",
+    desc: "Beautiful mountain stay",
+    points: ["Clean Rooms", "Mountain View", "Free WiFi"],
+    icon: "🏔️",
+  },
+  {
+    id: 2,
+    name: "Lake Serenity",
+    location: "Nainital",
+    rating: "4.6",
+    price: "₹1800",
+    desc: "Lake side peaceful stay",
+    points: ["Lake View", "Boating", "Sunset"],
+    icon: "🌊",
+  },
+  {
+    id: 3,
+    name: "Hilltop Cottage",
+    location: "Mussoorie",
+    rating: "4.7",
+    price: "₹2200",
+    desc: "Hill view cottage",
+    points: ["Hill View", "Nature", "Peace"],
+    icon: "🏡",
+  },
+];

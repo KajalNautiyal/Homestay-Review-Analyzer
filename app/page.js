@@ -1,82 +1,126 @@
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
 export default function Home() {
+  const router = useRouter();
+
+  const homestays = [
+    {
+      name: "Mountain View Homestay",
+      location: "Uttarakhand",
+      rating: "4.8",
+      icon: "🏔️",
+    },
+    {
+      name: "Lake Side Stay",
+      location: "Nainital",
+      rating: "4.6",
+      icon: "🌊",
+    },
+    {
+      name: "Hilltop Cottage",
+      location: "Mussoorie",
+      rating: "4.7",
+      icon: "🏡",
+    },
+  ];
+
+  const [search, setSearch] = useState("");
+  const [results, setResults] = useState(homestays);
+
+  const handleSearch = (value) => {
+    setSearch(value);
+
+    const filtered = homestays.filter(
+      (item) =>
+        item.name.toLowerCase().includes(value.toLowerCase()) ||
+        item.location.toLowerCase().includes(value.toLowerCase())
+    );
+
+    setResults(filtered);
+  };
+
   return (
     <>
       <Navbar />
 
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white py-24">
+      {/* HERO SECTION */}
+      <section className="bg-gradient-to-br from-sky-100 via-cyan-50 to-blue-100 py-24">
         <div className="max-w-6xl mx-auto px-6 text-center">
-          <h1 className="text-6xl font-bold mb-6">
-            🏡 Homestay Review Analyzer
+          <div className="text-7xl mb-6">🏡</div>
+
+          <h1 className="text-6xl font-bold text-slate-800 mb-6">
+            Homestay Review Analyzer
           </h1>
 
-          <p className="text-xl mb-8">
+          <p className="text-2xl text-slate-600 mb-10">
             Discover the best homestays using AI-powered review analysis.
           </p>
 
-          <button className="bg-white text-blue-600 font-bold px-8 py-4 rounded-xl shadow-lg hover:scale-105 transition">
-            Analyze Reviews
+          {/* CLICKABLE BUTTON */}
+          <button
+            onClick={() => router.push("/analyze")}
+            className="bg-sky-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg hover:bg-blue-700 transition"
+          >
+            📊 Analyze Reviews
           </button>
         </div>
       </section>
 
-      {/* Search Section */}
+      {/* SEARCH SECTION */}
       <section className="bg-white py-12">
         <div className="max-w-4xl mx-auto text-center px-6">
           <input
             type="text"
-            placeholder="🔍 Search Homestays..."
-            className="w-full border-2 border-blue-300 rounded-xl px-5 py-4 text-black shadow-md"
+            value={search}
+            onChange={(e) => handleSearch(e.target.value)}
+            placeholder="🔍 Search Homestays or Location..."
+            className="w-full border-2 border-sky-300 rounded-xl px-5 py-4 text-black shadow-md"
           />
         </div>
       </section>
 
-      {/* Featured Homestays */}
+      {/* RESULTS */}
       <section className="bg-slate-50 py-16 px-6">
         <h2 className="text-4xl font-bold text-center text-slate-800 mb-12">
           Featured Homestays
         </h2>
 
         <div className="max-w-6xl mx-auto grid md:grid-cols-3 gap-8">
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div className="h-48 bg-blue-200"></div>
-            <div className="p-5">
-              <h3 className="text-xl font-bold text-slate-800">
-                Mountain View Homestay
-              </h3>
-              <p className="text-slate-600">📍 Uttarakhand</p>
-              <p className="text-yellow-500 font-bold mt-2">⭐ 4.8</p>
-            </div>
-          </div>
+          {results.length > 0 ? (
+            results.map((home, index) => (
+              <div
+                key={index}
+                className="bg-white rounded-2xl shadow-lg p-8 text-center"
+              >
+                <div className="text-7xl mb-4">{home.icon}</div>
 
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div className="h-48 bg-green-200"></div>
-            <div className="p-5">
-              <h3 className="text-xl font-bold text-slate-800">
-                Lake Side Stay
-              </h3>
-              <p className="text-slate-600">📍 Nainital</p>
-              <p className="text-yellow-500 font-bold mt-2">⭐ 4.6</p>
-            </div>
-          </div>
+                <h3 className="text-2xl font-bold text-slate-800">
+                  {home.name}
+                </h3>
 
-          <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
-            <div className="h-48 bg-orange-200"></div>
-            <div className="p-5">
-              <h3 className="text-xl font-bold text-slate-800">
-                Hilltop Cottage
-              </h3>
-              <p className="text-slate-600">📍 Mussoorie</p>
-              <p className="text-yellow-500 font-bold mt-2">⭐ 4.7</p>
-            </div>
-          </div>
+                <p className="text-slate-600 mt-2">
+                  📍 {home.location}
+                </p>
+
+                <p className="text-yellow-500 font-bold mt-3">
+                  ⭐ {home.rating}
+                </p>
+              </div>
+            ))
+          ) : (
+            <p className="text-center col-span-3 text-red-500 font-semibold">
+              No Homestay Found
+            </p>
+          )}
         </div>
       </section>
 
-      {/* Features */}
+      {/* FEATURES */}
       <section className="bg-white py-16 px-6">
         <h2 className="text-4xl font-bold text-center text-slate-800 mb-12">
           Why Choose Our Platform?
