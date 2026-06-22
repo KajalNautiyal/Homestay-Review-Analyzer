@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -30,29 +31,51 @@ const reviewData = [
   { month: "May", reviews: 95 },
 ];
 
-const COLORS = ["lightgreen", "skyblue", "lightcoral"];
+const COLORS = ["#22c55e", "#38bdf8", "#ef4444"];
 
 export default function Dashboard() {
+  const [darkMode, setDarkMode] = useState(false);
+
   return (
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-sky-50 p-8">
+      <main
+        className={`min-h-screen p-8 transition-all duration-300 ${
+          darkMode
+            ? "bg-slate-900 text-white"
+            : "bg-sky-50 text-slate-900"
+        }`}
+      >
+        {/* Dark Mode Button */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="fixed top-24 right-8 z-50 bg-slate-800 text-white px-5 py-3 rounded-full shadow-lg hover:scale-105 transition"
+        >
+          {darkMode ? "☀ Light" : "🌙 Dark"}
+        </button>
 
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-5xl font-extrabold text-sky-700">
+          <h1
+            className={`text-5xl font-extrabold ${
+              darkMode ? "text-sky-400" : "text-sky-700"
+            }`}
+          >
             Review Analytics Dashboard
           </h1>
 
-          <p className="text-slate-700 mt-4 text-lg">
+          <p
+            className={`mt-4 text-lg ${
+              darkMode ? "text-slate-300" : "text-slate-700"
+            }`}
+          >
             Analyze customer reviews and discover insights using AI.
           </p>
         </div>
 
         {/* Statistics Cards */}
         <div className="grid md:grid-cols-5 gap-6 mb-12">
-
           <div className="bg-sky-100 border border-sky-200 rounded-2xl p-6 shadow-md text-center">
             <h2 className="text-4xl font-bold text-sky-600">500+</h2>
             <p className="mt-2 text-slate-900 font-semibold">
@@ -87,15 +110,17 @@ export default function Dashboard() {
               Average Rating
             </p>
           </div>
-
         </div>
 
         {/* Charts */}
         <div className="grid md:grid-cols-2 gap-8">
-
           {/* Pie Chart */}
-          <div className="bg-white rounded-2xl shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-slate-900 text-center mb-4">
+          <div
+            className={`rounded-2xl shadow-lg p-6 ${
+              darkMode ? "bg-slate-800" : "bg-white"
+            }`}
+          >
+            <h2 className="text-2xl font-bold text-center mb-4">
               Sentiment Distribution
             </h2>
 
@@ -116,15 +141,18 @@ export default function Dashboard() {
                     />
                   ))}
                 </Pie>
-
                 <Tooltip />
               </PieChart>
             </ResponsiveContainer>
           </div>
 
           {/* Bar Chart */}
-          <div className="bg-white rounded-2xl shadow-lg p-6">
-            <h2 className="text-2xl font-bold text-slate-900 text-center mb-4">
+          <div
+            className={`rounded-2xl shadow-lg p-6 ${
+              darkMode ? "bg-slate-800" : "bg-white"
+            }`}
+          >
+            <h2 className="text-2xl font-bold text-center mb-4">
               Monthly Reviews
             </h2>
 
@@ -134,33 +162,40 @@ export default function Dashboard() {
 
                 <XAxis
                   dataKey="month"
-                  tick={{ fill: "#0f2a14", fontSize: 14 }}
+                  tick={{
+                    fill: darkMode ? "#ffffff" : "#0f172a",
+                  }}
                 />
 
                 <YAxis
-                  tick={{ fill: "#0f172a", fontSize: 14 }}
+                  tick={{
+                    fill: darkMode ? "#ffffff" : "#0f172a",
+                  }}
                 />
 
                 <Tooltip />
 
                 <Bar
                   dataKey="reviews"
-                  fill="skyblue"
+                  fill="#38bdf8"
                   radius={[8, 8, 0, 0]}
                 />
               </BarChart>
             </ResponsiveContainer>
           </div>
-
         </div>
 
         {/* AI Insights */}
-        <div className="bg-white mt-10 rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-5">
+        <div
+          className={`mt-10 rounded-2xl shadow-lg p-8 ${
+            darkMode ? "bg-slate-800" : "bg-white"
+          }`}
+        >
+          <h2 className="text-2xl font-bold mb-5">
             AI Generated Insights
           </h2>
 
-          <ul className="space-y-3 text-slate-800 font-medium">
+          <ul className="space-y-3 font-medium">
             <li>✅ Most guests praised cleanliness and hospitality.</li>
             <li>✅ Positive sentiment accounts for 65% of all reviews.</li>
             <li>⚠ Negative reviews mainly mention Wi-Fi issues.</li>
@@ -169,18 +204,26 @@ export default function Dashboard() {
         </div>
 
         {/* Top Homestay */}
-        <div className="bg-white mt-10 rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-slate-900 mb-4">
+        <div
+          className={`mt-10 rounded-2xl shadow-lg p-8 ${
+            darkMode ? "bg-slate-800" : "bg-white"
+          }`}
+        >
+          <h2 className="text-2xl font-bold mb-4">
             Top Performing Homestay
           </h2>
 
           <div className="flex flex-col md:flex-row justify-between items-center">
             <div>
-              <h3 className="text-xl font-bold text-green-700">
+              <h3 className="text-xl font-bold text-green-500">
                 Mountain View Homestay
               </h3>
 
-              <p className="text-slate-700 mt-2">
+              <p
+                className={`mt-2 ${
+                  darkMode ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
                 Highest customer satisfaction score this month.
               </p>
             </div>
@@ -190,7 +233,6 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-
       </main>
 
       <Footer />
