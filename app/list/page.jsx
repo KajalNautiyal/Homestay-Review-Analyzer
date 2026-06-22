@@ -1,11 +1,13 @@
 "use client";
 
+import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { useRouter } from "next/navigation";
 
 export default function Dashboard() {
   const router = useRouter();
+  const [darkMode, setDarkMode] = useState(false);
 
   const homestays = [
     { id: 1, name: "Mountain View Stay", location: "Uttarakhand", rating: "4.8", price: "₹2000", icon: "🏔️" },
@@ -20,56 +22,71 @@ export default function Dashboard() {
     <>
       <Navbar />
 
-      <main className="min-h-screen bg-gradient-to-b from-sky-50 to-white p-10">
+      <main
+        className={`min-h-screen p-10 transition-all duration-300 ${
+          darkMode
+            ? "bg-slate-900 text-white"
+            : "bg-gradient-to-b from-sky-50 to-white"
+        }`}
+      >
+        {/* Dark Mode Button */}
+        <button
+          onClick={() => setDarkMode(!darkMode)}
+          className="fixed top-24 right-8 z-50 bg-slate-800 text-white px-5 py-3 rounded-full shadow-lg hover:scale-105 transition"
+        >
+          {darkMode ? "☀ Light" : "🌙 Dark"}
+        </button>
 
-        {/* TITLE */}
-        <h1 className="text-4xl font-bold text-sky-800 text-center mb-10">
+        {/* Title */}
+        <h1
+          className={`text-4xl font-bold text-center mb-10 ${
+            darkMode ? "text-sky-400" : "text-sky-800"
+          }`}
+        >
           🏡 Homestay List
         </h1>
 
-        {/* LIST GRID */}
+        {/* Grid */}
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-
           {homestays.map((home) => (
             <div
               key={home.id}
-              className="bg-white shadow-lg rounded-2xl p-6 hover:shadow-2xl transition duration-300"
+              className={`rounded-2xl p-6 shadow-lg hover:shadow-2xl transition duration-300 ${
+                darkMode
+                  ? "bg-slate-800 text-white"
+                  : "bg-white text-slate-900"
+              }`}
             >
-
-              {/* ICON */}
               <div className="text-5xl">{home.icon}</div>
 
-              {/* NAME */}
-              <h2 className="text-xl font-bold text-slate-900 mt-3">
+              <h2 className="text-xl font-bold mt-3">
                 {home.name}
               </h2>
 
-              {/* LOCATION */}
-              <p className="text-slate-700 mt-1">
+              <p
+                className={`mt-1 ${
+                  darkMode ? "text-slate-300" : "text-slate-700"
+                }`}
+              >
                 📍 {home.location}
               </p>
 
-              {/* RATING */}
-              <p className="text-yellow-600 font-semibold mt-2">
+              <p className="text-yellow-500 font-semibold mt-2">
                 ⭐ {home.rating}
               </p>
 
-              {/* PRICE */}
-              <p className="text-green-700 font-semibold">
+              <p className="text-green-500 font-semibold">
                 {home.price}/night
               </p>
 
-              {/* VIEW DETAILS BUTTON (CLICKABLE) */}
               <button
                 onClick={() => router.push(`/detail/${home.id}`)}
                 className="mt-4 w-full bg-sky-600 text-white py-2 rounded-xl hover:bg-sky-700 transition"
               >
                 View Details →
               </button>
-
             </div>
           ))}
-
         </div>
       </main>
 
