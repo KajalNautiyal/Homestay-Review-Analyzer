@@ -1,24 +1,60 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { analyzeSentiment } from "../services/sentimentService";
 
 export default function AnalyzePage() {
-  const [review, setReview] = useState("");
-  const [result, setResult] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
+const [review, setReview] = useState("");
+const [result, setResult] = useState("");
+const [darkMode, setDarkMode] = useState(false);
 
-  const handleAnalyze = () => {
-    if (review.trim() === "") {
-      alert("Please enter a review");
-      return;
+useEffect(() => {
+  fetch("http://localhost:5000/api/homestays")
+    .then((res) => res.json())
+    .then((data) => {
+      console.log("Homestays:", data);
+    })
+    .catch((err) => console.error(err));
+}, []);
+
+const handleAnalyze = async () => {
+  if (review.trim() === "") {
+    alert("Please enter a review");
+    return;
+  }
+
+  // Analyze sentiment
+  const sentiment = analyzeSentiment(review);
+  setResult(sentiment);
+
+  // Save to backend
+  try {
+    const response = await fetch("http://localhost:5000/api/homestays", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        name: review,
+        location: "Delhi",
+        rating: 5,
+        price: 1000,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to save review");
     }
 
-    const sentiment = analyzeSentiment(review);
-    setResult(sentiment);
-  };
+    const data = await response.json();
+    console.log("Saved:", data);
+  } catch (error) {
+    console.error(error);
+    alert("Error connecting to backend");
+  }
+};
 
   const getEmoji = () => {
     if (result === "Positive") return "😊";
